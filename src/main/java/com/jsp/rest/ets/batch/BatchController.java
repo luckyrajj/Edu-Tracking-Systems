@@ -30,5 +30,25 @@ public class BatchController {
 	}
 	
 	
+	@PutMapping("/batches/{batchId}")
+	public ResponseEntity<ResponseStructure<BatchResponse>> updateBatchDetails(@RequestBody BatchRequest batchRequest,@PathVariable String batchId) {
+		BatchResponse batchResponse=batchService.updateBatchDetails(batchRequest,batchId);
+		
+		return responseBuilder.success(HttpStatus.OK, "batch updated", batchResponse);
+	}
+
+	
+	@PatchMapping("/batches/{batchId}/cancel")
+	public ResponseEntity<ResponseStructure<BatchResponse>> updateBatchStatusToCancel(@PathVariable String batchId){
+		BatchResponse batchResponse= batchService.updateBatchStatusToCancel(batchId);
+		return responseBuilder.success(HttpStatus.OK, "batch cancelled", batchResponse);
+	}
+	
+	
+	@PatchMapping("/batches/{batchId}/close")
+	public ResponseEntity<ResponseStructure<BatchResponse>>updateBatchStatusToClosed(@PathVariable String batchId){
+		BatchResponse batchResponse=batchService.updateBatchStatusToClose(batchId);
+		return responseBuilder.success(HttpStatus.OK, "batch Closed", batchResponse);
+	}
 	
 }
