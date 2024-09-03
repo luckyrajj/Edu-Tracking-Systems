@@ -10,6 +10,7 @@ import com.jsp.rest.ets.security.RegistrationRequest;
 import com.jsp.rest.ets.util.AppResponseBuilder;
 import com.jsp.rest.ets.util.ResponseStructure;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -24,4 +25,11 @@ public class UserController {
 		UserResponse  userResponse=userService.saveUser(registrationRequest,UserRole.ADMIN);
 		return responseBuilder.success(HttpStatus.OK, "admin created", userResponse);
 	}
+	
+	@PostMapping("/hrs/register")
+	public ResponseEntity<ResponseStructure<UserResponse>>saveHr(@RequestBody @Valid RegistrationRequest registrationRequest){
+		UserResponse hrResponse=userService.saveUser(registrationRequest,UserRole.HR);
+		return responseBuilder.success(HttpStatus.CREATED, "Hr created Successfully", hrResponse);
+	}
+
 }
