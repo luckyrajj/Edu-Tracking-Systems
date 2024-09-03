@@ -2,13 +2,17 @@ package com.jsp.rest.ets.user;
 
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.jsp.rest.ets.exception.RatingNotFoundByIdException;
 import com.jsp.rest.ets.exception.StudentNotFoundByIdException;
 import com.jsp.rest.ets.exception.TrainerNotFoundByIdException;
-import com.jsp.rest.ets.rating.Rating;
 import com.jsp.rest.ets.rating.RatingMapper;
 import com.jsp.rest.ets.rating.RatingRepository;
+import com.jsp.rest.ets.rating.RatingRequest;
+import com.jsp.rest.ets.rating.RatingResponse;
 import com.jsp.rest.ets.security.RegistrationRequest;
 
 import lombok.AllArgsConstructor;
@@ -67,6 +71,24 @@ public class UserService {
 			user=userRepository.save(student);
 			return userMapper.mapToStudentResponse(student);
 		}).orElseThrow(()->new StudentNotFoundByIdException("failed to update the teck stack"));
+
+	}
+	public RatingResponse updateStudentRating(RatingRequest ratingRequest,String ratingId) {
+
+		return ratingRepository.findById(ratingId).map(rating->{
+			ratingMapper.mapToRating(ratingRequest, rating);
+			rating=ratingRepository.save(rating);
+			return ratingMapper.mapToRatingResponse(rating);
+		}).orElseThrow(()-> new RatingNotFoundByIdException("failed to update the rating"));
+	}
+
+	public List<RatingResponse> getStudentRatings(String studentId) {
+
+		return userRepository.findById(studentId).map(user->{
+			return ((Student)user).getRatings().stream()
+					.map(rating -> ratingMapper.mapToRatingResponse(rating))
+					.toList();
+		}).orElseThrow(()-> new StudentNotFoundByIdException("failed to find the student"));
 
 	}
 }
