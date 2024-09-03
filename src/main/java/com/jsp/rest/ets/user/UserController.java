@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsp.ets.user.UserResponse;
+import com.jsp.ets.user.UserRole;
 import com.jsp.rest.ets.security.RegistrationRequest;
 import com.jsp.rest.ets.util.AppResponseBuilder;
 import com.jsp.rest.ets.util.ResponseStructure;
@@ -31,5 +33,12 @@ public class UserController {
 		UserResponse hrResponse=userService.saveUser(registrationRequest,UserRole.HR);
 		return responseBuilder.success(HttpStatus.CREATED, "Hr created Successfully", hrResponse);
 	}
+	
+	@PostMapping("/trainers/register")
+	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody RegistrationRequest registrationRequest){
+		UserResponse response=userService.saveUser(registrationRequest,UserRole.TRAINER);
+		return responseBuilder.success(HttpStatus.CREATED, "Trainer created successfully", response);
+	}
+	
 
 }
