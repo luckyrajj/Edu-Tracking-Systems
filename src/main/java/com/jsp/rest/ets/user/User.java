@@ -2,8 +2,11 @@ package com.jsp.rest.ets.user;
 
 import java.time.LocalDateTime;
 
+import com.jsp.rest.ets.config.GenerateSequenceId;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +17,8 @@ import lombok.Setter;
 @Table(name = "users")
 public class User {
 
+	@Id
+	@GenerateSequenceId
 	@Column(name = "user_id")
 	private String userId;
 	@Column(name = "user_name")
