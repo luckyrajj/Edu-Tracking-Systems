@@ -32,7 +32,7 @@ public class User {
 	private String password;
 	
 	@Column(name = "user_role")
-	private String role;
+	private UserRole role;
 	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
