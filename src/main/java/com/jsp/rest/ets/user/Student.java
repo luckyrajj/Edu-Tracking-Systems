@@ -3,7 +3,7 @@ package com.jsp.rest.ets.user;
 import java.time.Year;
 import java.util.List;
 
-import org.hibernate.engine.jdbc.batch.spi.Batch;
+import  com.jsp.rest.ets.batch.Batch;
 
 import com.jsp.rest.ets.rating.Rating;
 
