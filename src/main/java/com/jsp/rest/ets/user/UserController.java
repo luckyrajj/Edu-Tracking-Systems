@@ -51,5 +51,11 @@ public class UserController {
 		UserResponse response=userService.updateTrainer(trainerRequest,userId);
 		return responseBuilder.success(HttpStatus.OK, "Trainer updated", response);
 	}
+	
+	@PutMapping("/students/{userId}")
+	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudent(@RequestBody StudentRequest studentRequest,@PathVariable String userId){
+		StudentResponse studentResponse=userService.updateStudent(studentRequest,userId);
+		return responseBuilder.success(HttpStatus.OK, "Student Updated", studentResponse);
+	}
 
 }

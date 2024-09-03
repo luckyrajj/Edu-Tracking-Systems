@@ -2,6 +2,7 @@ package com.jsp.rest.ets.user;
 
 import org.springframework.stereotype.Service;
 
+import com.jsp.rest.ets.exception.StudentNotFoundByIdException;
 import com.jsp.rest.ets.exception.TrainerNotFoundByIdException;
 import com.jsp.rest.ets.security.RegistrationRequest;
 
@@ -41,5 +42,13 @@ public class UserService {
 		}).orElseThrow(()-> new TrainerNotFoundByIdException("failed to update the trainer"));
 
 
+	}
+	public StudentResponse updateStudent(StudentRequest studentRequest, String userId) {
+		
+		return userRepository.findById(userId).map(user->{
+			userMapper.mapToStudentEntity(studentRequest, (Student)user);
+			user=userRepository.save(user);
+			return userMapper.mapToStudentResponse((Student)user);
+		}).orElseThrow(()->new StudentNotFoundByIdException("failed to update the student"));
 	}
 }
