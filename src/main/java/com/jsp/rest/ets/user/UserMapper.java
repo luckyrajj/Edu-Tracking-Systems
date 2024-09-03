@@ -2,15 +2,17 @@ package com.jsp.rest.ets.user;
 
 import org.springframework.stereotype.Component;
 
+import com.jsp.rest.ets.security.RegistrationRequest;
+
 @Component
 public class UserMapper {
 
-	public User mapToUserEntity( userRequest, User user) {
-		user.setUserName(userRequest.getUsername());
-		user.setEmail(userRequest.getEmail());
-		user.setPassword(userRequest.getPassword());
-		user.setRole(userRequest.getRole());
-		return 
+	public User mapToUserEntity( RegistrationRequest registrationRequest, User user) {
+		user.setUserName(registrationRequest.getUsername());
+		user.setEmail(registrationRequest.getEmail());
+		user.setPassword(registrationRequest.getPassword());
+		
+		return user; 
 	}
 	
 }
