@@ -40,5 +40,10 @@ public class UserController {
 		return responseBuilder.success(HttpStatus.CREATED, "Trainer created successfully", response);
 	}
 	
+	@PostMapping("/students/register")
+	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody RegistrationRequest registrationRequest){
+		UserResponse userResponse=userService.saveUser(registrationRequest, UserRole.STUDENT);
+		return responseBuilder.success(HttpStatus.CREATED, "student created successfully", userResponse);
+	}
 
 }
