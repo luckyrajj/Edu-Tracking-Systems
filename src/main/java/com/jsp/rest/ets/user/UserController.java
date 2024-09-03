@@ -1,11 +1,15 @@
 package com.jsp.rest.ets.user;
 
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jsp.rest.ets.security.RegistrationRequest;
@@ -56,6 +60,12 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudent(@RequestBody StudentRequest studentRequest,@PathVariable String userId){
 		StudentResponse studentResponse=userService.updateStudent(studentRequest,userId);
 		return responseBuilder.success(HttpStatus.OK, "Student Updated", studentResponse);
+	}
+	
+	@PatchMapping("/students/{userId}")
+	public ResponseEntity<ResponseStructure<StudentResponse>>updateStudentStack(@PathVariable String userId,@RequestParam Stack stack){
+		StudentResponse response=userService.updateStudentStack(userId,stack);
+		return responseBuilder.success(HttpStatus.OK, "stack updated for the student", response);
 	}
 
 }

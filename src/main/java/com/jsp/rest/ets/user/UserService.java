@@ -1,9 +1,14 @@
 package com.jsp.rest.ets.user;
 
+
+
 import org.springframework.stereotype.Service;
 
 import com.jsp.rest.ets.exception.StudentNotFoundByIdException;
 import com.jsp.rest.ets.exception.TrainerNotFoundByIdException;
+import com.jsp.rest.ets.rating.Rating;
+import com.jsp.rest.ets.rating.RatingMapper;
+import com.jsp.rest.ets.rating.RatingRepository;
 import com.jsp.rest.ets.security.RegistrationRequest;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +19,8 @@ public class UserService {
 
 	private UserRepository userRepository;
 	private UserMapper userMapper;
+	private RatingMapper ratingMapper;
+	private RatingRepository ratingRepository;
 	
 	public UserResponse saveUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
@@ -50,5 +57,16 @@ public class UserService {
 			user=userRepository.save(user);
 			return userMapper.mapToStudentResponse((Student)user);
 		}).orElseThrow(()->new StudentNotFoundByIdException("failed to update the student"));
+	}
+	public StudentResponse updateStudentStack(String userId, Stack stack) {
+
+		return userRepository.findById(userId).map(user->{
+			Student student=(Student)user;
+
+			student.setStack(stack);
+			user=userRepository.save(student);
+			return userMapper.mapToStudentResponse(student);
+		}).orElseThrow(()->new StudentNotFoundByIdException("failed to update the teck stack"));
+
 	}
 }

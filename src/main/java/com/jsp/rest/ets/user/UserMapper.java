@@ -64,6 +64,7 @@ public class UserMapper {
 		studentResponse.setCreatedAt(student.getCreatedAt());
 		studentResponse.setModifiedAt(student.getModifiedAt());
 		studentResponse.setYop(student.getYop());
+		studentResponse.setStack(student.getStack());
 	
 		studentResponse.setDegreePercentage(student.getDegreePercentage());
 		studentResponse.setTwelvethPercentage(student.getTwelvethPercentage());
