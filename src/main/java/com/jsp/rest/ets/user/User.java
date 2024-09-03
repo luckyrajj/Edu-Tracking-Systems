@@ -21,16 +21,22 @@ public class User {
 	@GenerateSequenceId
 	@Column(name = "user_id")
 	private String userId;
+	
 	@Column(name = "user_name")
 	private String userName;
+	
 	@Column(name = "user_email")
 	private String email;
+	
 	@Column(name = "user_password")
 	private String password;
+	
 	@Column(name = "user_role")
 	private String role;
+	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
+	
 	@Column(name = "modified_at")
 	private LocalDateTime modifiedAt;
 }
