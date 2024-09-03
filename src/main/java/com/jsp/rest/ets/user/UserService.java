@@ -2,6 +2,7 @@ package com.jsp.rest.ets.user;
 
 import org.springframework.stereotype.Service;
 
+import com.jsp.rest.ets.exception.TrainerNotFoundByIdException;
 import com.jsp.rest.ets.security.RegistrationRequest;
 
 import lombok.AllArgsConstructor;
@@ -30,5 +31,15 @@ public class UserService {
 		}
 
 		return userMapper.mapToUserResponse(user);
+	}
+	
+	public UserResponse updateTrainer(TrainerRequest trainerRequest,String userId) {
+		return userRepository.findById(userId).map(user->{
+			userMapper.mapToTrainerEntity(trainerRequest, (Trainer)user);
+			user=userRepository.save(user);
+			return userMapper.mapToTrainerResponse((Trainer)user);
+		}).orElseThrow(()-> new TrainerNotFoundByIdException("failed to update the trainer"));
+
+
 	}
 }

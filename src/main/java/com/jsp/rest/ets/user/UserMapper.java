@@ -25,4 +25,21 @@ public class UserMapper {
 		return userResponse;
 	}
 	
+	public Trainer mapToTrainerEntity(TrainerRequest trainerRequest,Trainer trainer) {
+		trainer.setUsername(trainerRequest.getUsername());
+		trainer.setEmail(trainerRequest.getEmail());
+		trainer.setSubjects(trainerRequest.getSubjects());
+		return trainer;
+	}
+	public TrainerResponse mapToTrainerResponse(Trainer trainer) {
+		TrainerResponse response=new TrainerResponse();
+		response.setUsername(trainer.getUsername());
+		response.setEmail(trainer.getEmail());
+		response.setSubjects(trainer.getSubjects());
+		response.setCreatedAt(trainer.getCreatedAt());
+		response.setRole(trainer.getRole());
+		response.setModifiedAt(trainer.getModifiedAt());
+		return response;
+	}
+	
 }

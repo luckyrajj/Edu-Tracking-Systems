@@ -2,12 +2,12 @@ package com.jsp.rest.ets.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jsp.ets.user.UserResponse;
-import com.jsp.ets.user.UserRole;
 import com.jsp.rest.ets.security.RegistrationRequest;
 import com.jsp.rest.ets.util.AppResponseBuilder;
 import com.jsp.rest.ets.util.ResponseStructure;
@@ -44,6 +44,12 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody RegistrationRequest registrationRequest){
 		UserResponse userResponse=userService.saveUser(registrationRequest, UserRole.STUDENT);
 		return responseBuilder.success(HttpStatus.CREATED, "student created successfully", userResponse);
+	}
+	
+	@PutMapping("/trainers/{userId}")
+	public ResponseEntity<ResponseStructure<UserResponse>> updateTrainer(@RequestBody TrainerRequest trainerRequest,@PathVariable String userId){
+		UserResponse response=userService.updateTrainer(trainerRequest,userId);
+		return responseBuilder.success(HttpStatus.OK, "Trainer updated", response);
 	}
 
 }
