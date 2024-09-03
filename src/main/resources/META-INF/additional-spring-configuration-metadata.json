@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "super_admin.email",
+  "type": "java.lang.String",
+  "description": "A description for 'super_admin.email'"
+}]}
