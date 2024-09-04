@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class BatchNotFoundByIdException extends RuntimeException {
 
-	private String message;
+	private  final String message;
 
 }

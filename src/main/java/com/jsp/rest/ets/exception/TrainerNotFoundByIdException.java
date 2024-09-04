@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class TrainerNotFoundByIdException extends RuntimeException {
 
-	private String message;
+	private  final String message;
 }

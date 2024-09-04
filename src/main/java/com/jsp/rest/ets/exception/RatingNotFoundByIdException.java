@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class RatingNotFoundByIdException extends RuntimeException {
 
-	private String message;
+	private  final String message;
 	
 	
 }

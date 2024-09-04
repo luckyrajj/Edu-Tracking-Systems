@@ -12,7 +12,7 @@ public class RatingRequest {
 	
 	@Min(value = 1l)
 	@Max(value = 5l)
-	private int rating;
+	private int subjectRating;
 	
 	@NotBlank
 	private String feedBack;
