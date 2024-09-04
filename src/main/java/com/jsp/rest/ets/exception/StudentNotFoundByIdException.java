@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class StudentNotFoundByIdException extends RuntimeException {
 
-	private String message;
+	private  final String message;
 	
 }

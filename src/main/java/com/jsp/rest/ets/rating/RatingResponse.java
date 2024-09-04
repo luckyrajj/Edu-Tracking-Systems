@@ -10,7 +10,7 @@ import lombok.Setter;
 public class RatingResponse {
 
 	private Subject subject;
-	private int rating;
+	private int subjectRating;
 	private String feedBack;
 	
 }

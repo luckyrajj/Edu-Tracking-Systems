@@ -30,7 +30,7 @@ public class Rating {
 	private Subject subject;
 	
 	@Column(name = "rating")
-	private int rating;
+	private int subjectRating;
 	
 	@Column(name="feedBack")
 	private String feedBack;
