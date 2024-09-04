@@ -33,3 +33,7 @@ super_admin:
           starttls:
             enable: true
             required: true
+# ehcache config
+  cache:
+    jcache:
+      config: "classpath:ehcache.xml"
