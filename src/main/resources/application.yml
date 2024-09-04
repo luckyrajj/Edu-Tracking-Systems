@@ -19,3 +19,17 @@ spring:
 # Application Configuration
 super_admin:
   email: ${SUPER-ADMIN_EMAIL}
+
+# Mail Configuration
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
