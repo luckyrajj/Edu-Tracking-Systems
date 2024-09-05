@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.jsp.rest.ets.config.RandomGenerator;
+import com.jsp.rest.ets.util.CacheHelper;
 import com.jsp.rest.ets.util.MailSender;
 import com.jsp.rest.ets.util.MessageModel;
 import jakarta.mail.MessagingException;
@@ -35,6 +36,7 @@ public class UserService {
 	private RatingRepository ratingRepository;
 	private MailSender mailSender;
 	private Random randomGenerator;
+	private CacheHelper cacheHelper;
 
 	public UserResponse registerUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
@@ -50,6 +52,8 @@ public class UserService {
 			user = userMapper.mapToUserEntity(registrationRequest, user);
 			user.setRole(role);
 			int otp=randomGenerator.nextInt(100000,999999);
+			cacheHelper.userCache(user);
+			cacheHelper.otpCache(otp);
 
 		}
 

@@ -41,8 +41,8 @@ public class UserController {
 	
 	@PostMapping("/admins/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid  RegistrationRequest registrationRequest) {
-		UserResponse adminResponse=userService.saveUser(registrationRequest,UserRole.ADMIN);
-		return responseBuilder.success(HttpStatus.CREATED,"Admin created Successfully", adminResponse);
+		UserResponse adminResponse=userService.registerUser(registrationRequest,UserRole.ADMIN);
+		return responseBuilder.success(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register", adminResponse);
 	}
 	
 	
@@ -56,7 +56,7 @@ public class UserController {
 	@PostMapping("/hrs/register")
 	public ResponseEntity<ResponseStructure<UserResponse>>saveHr(@RequestBody @Valid RegistrationRequest registrationRequest){
 		UserResponse hrResponse=userService.saveUser(registrationRequest,UserRole.HR);
-		return responseBuilder.success(HttpStatus.CREATED, "Hr created Successfully", hrResponse);
+		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", hrResponse);
 	}
 	
 	
@@ -70,7 +70,7 @@ public class UserController {
 	@PostMapping("/trainers/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody RegistrationRequest registrationRequest){
 		UserResponse response=userService.saveUser(registrationRequest,UserRole.TRAINER);
-		return responseBuilder.success(HttpStatus.CREATED, "Trainer created successfully", response);
+		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
 	}
 	
 	
@@ -84,7 +84,7 @@ public class UserController {
 	@PostMapping("/students/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody RegistrationRequest registrationRequest){
 		UserResponse response=userService.saveUser(registrationRequest, UserRole.STUDENT);
-		return responseBuilder.success(HttpStatus.CREATED, "Student created successfully", response);
+		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
 	}
 	
 	@Operation(description = "This API endpoint is meant for updating the Student details and store it in the specific database. In order to "
