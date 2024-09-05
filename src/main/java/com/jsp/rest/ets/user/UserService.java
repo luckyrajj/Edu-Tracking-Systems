@@ -5,7 +5,9 @@ package com.jsp.rest.ets.user;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import com.jsp.rest.ets.config.RandomGenerator;
 import com.jsp.rest.ets.util.MailSender;
 import com.jsp.rest.ets.util.MessageModel;
 import jakarta.mail.MessagingException;
@@ -31,6 +33,7 @@ public class UserService {
 	private RatingMapper ratingMapper;
 	private RatingRepository ratingRepository;
 	private MailSender mailSender;
+	private Random randomGenerator;
 	
 	public UserResponse saveUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
@@ -121,4 +124,5 @@ public class UserService {
 		mailSender.sendMail(messageModel);
 
 	}
+
 }
