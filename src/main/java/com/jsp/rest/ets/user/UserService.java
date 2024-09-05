@@ -11,6 +11,7 @@ import com.jsp.rest.ets.config.RandomGenerator;
 import com.jsp.rest.ets.util.MailSender;
 import com.jsp.rest.ets.util.MessageModel;
 import jakarta.mail.MessagingException;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import com.jsp.rest.ets.exception.RatingNotFoundByIdException;
@@ -34,7 +35,8 @@ public class UserService {
 	private RatingRepository ratingRepository;
 	private MailSender mailSender;
 	private Random randomGenerator;
-	
+
+	@CachePut(cacheNames = "non-verified-user",key = "#registrationRequest.email")
 	public UserResponse registerUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
 		switch (role) {
