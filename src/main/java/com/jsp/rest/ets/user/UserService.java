@@ -2,8 +2,13 @@ package com.jsp.rest.ets.user;
 
 
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
+import com.jsp.rest.ets.util.MailSender;
+import com.jsp.rest.ets.util.MessageModel;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import com.jsp.rest.ets.exception.RatingNotFoundByIdException;
@@ -25,6 +30,7 @@ public class UserService {
 	private UserMapper userMapper;
 	private RatingMapper ratingMapper;
 	private RatingRepository ratingRepository;
+	private MailSender mailSender;
 	
 	public UserResponse saveUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
@@ -89,6 +95,30 @@ public class UserService {
 					.map(rating -> ratingMapper.mapToRatingResponse(rating))
 					.toList();
 		}).orElseThrow(()-> new StudentNotFoundByIdException("failed to find the student"));
+
+	}
+
+	private void sendVerificationOtpToUser(String email,int otp) throws MessagingException {
+		String message="<!DOCTYPE html>\n" +
+				"<html lang=\"en\">\n" +
+				"<head>\n" +
+				"    <meta charset=\"UTF-8\">\n" +
+				"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+				"    <title>Document</title>\n" +
+				"</head>\n" +
+				"<body>\n" +
+				"    <h2>Edu-Tracking-Systems</h2>\n" +
+				"    <h3>Please Verify the email by using the otp below:</h3>\n" +
+				"    <h4>The otp to verify the email:</h4>\n" +
+				"	<h4>"+otp+"</h4>" +
+				"</body>\n" +
+				"</html>";
+		MessageModel messageModel=new MessageModel();
+		messageModel.setTo(email);
+		messageModel.setSendDate(new Date());
+		messageModel.setSubject("Verify your email for register to Edu-Tracking-Systems");
+		messageModel.setText(message);
+		mailSender.sendMail(messageModel);
 
 	}
 }
