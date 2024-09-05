@@ -35,7 +35,7 @@ public class UserService {
 	private MailSender mailSender;
 	private Random randomGenerator;
 	
-	public UserResponse saveUser(RegistrationRequest registrationRequest,UserRole role) {
+	public UserResponse registerUser(RegistrationRequest registrationRequest,UserRole role) {
 		User user = null;
 		switch (role) {
 		case ADMIN -> user = new Admin();
