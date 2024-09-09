@@ -55,7 +55,7 @@ public class UserController {
 			})
 	@PostMapping("/hrs/register")
 	public ResponseEntity<ResponseStructure<UserResponse>>saveHr(@RequestBody @Valid RegistrationRequest registrationRequest){
-		UserResponse hrResponse=userService.saveUser(registrationRequest,UserRole.HR);
+		UserResponse hrResponse=userService.registerUser(registrationRequest,UserRole.HR);
 		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", hrResponse);
 	}
 	
@@ -69,7 +69,7 @@ public class UserController {
 			})
 	@PostMapping("/trainers/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody RegistrationRequest registrationRequest){
-		UserResponse response=userService.saveUser(registrationRequest,UserRole.TRAINER);
+		UserResponse response=userService.registerUser(registrationRequest,UserRole.TRAINER);
 		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
 	}
 	
@@ -83,7 +83,7 @@ public class UserController {
 			})
 	@PostMapping("/students/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody RegistrationRequest registrationRequest){
-		UserResponse response=userService.saveUser(registrationRequest, UserRole.STUDENT);
+		UserResponse response=userService.registerUser(registrationRequest, UserRole.STUDENT);
 		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
 	}
 	

@@ -9,7 +9,7 @@ import java.util.Random;
 
 import com.jsp.rest.ets.config.RandomGenerator;
 import com.jsp.rest.ets.util.CacheHelper;
-import com.jsp.rest.ets.util.MailSender;
+import com.jsp.rest.ets.util.MailMessageSender;
 import com.jsp.rest.ets.util.MessageModel;
 import jakarta.mail.MessagingException;
 import org.springframework.cache.annotation.CachePut;
@@ -34,7 +34,7 @@ public class UserService {
 	private UserMapper userMapper;
 	private RatingMapper ratingMapper;
 	private RatingRepository ratingRepository;
-	private MailSender mailSender;
+	private MailMessageSender javaMailSender;
 	private Random randomGenerator;
 	private CacheHelper cacheHelper;
 
@@ -54,8 +54,13 @@ public class UserService {
 			int otp=randomGenerator.nextInt(100000,999999);
 			cacheHelper.userCache(user);
 			cacheHelper.otpCache(otp);
+            try {
+                sendVerificationOtpToUser(user.getEmail(),otp);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
 
-		}
+        }
 
 		return userMapper.mapToUserResponse(user);
 	}
@@ -127,7 +132,7 @@ public class UserService {
 		messageModel.setSendDate(new Date());
 		messageModel.setSubject("Verify your email for register to Edu-Tracking-Systems");
 		messageModel.setText(message);
-		mailSender.sendMail(messageModel);
+		javaMailSender.sendMail(messageModel);
 
 	}
 
