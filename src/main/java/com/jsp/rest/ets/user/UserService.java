@@ -12,6 +12,7 @@ import com.jsp.rest.ets.util.CacheHelper;
 import com.jsp.rest.ets.util.MailMessageSender;
 import com.jsp.rest.ets.util.MessageModel;
 import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import com.jsp.rest.ets.security.RegistrationRequest;
 
 import lombok.AllArgsConstructor;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -57,7 +59,7 @@ public class UserService {
             try {
                 sendVerificationOtpToUser(user.getEmail(),otp);
             } catch (MessagingException e) {
-                throw new RuntimeException(e);
+              log.info("Messaging Exception Occurred");
             }
 
         }

@@ -15,13 +15,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-
-# Application Configuration
-super_admin:
-  email: ${SUPER-ADMIN_EMAIL}
-
-# Mail Configuration
-
+  # Mail Configuration
   mail:
     host: smtp.gmail.com
     port: 587
@@ -33,7 +27,15 @@ super_admin:
           starttls:
             enable: true
             required: true
-# ehcache config
+
+    # ehcache config
   cache:
     jcache:
       config: "classpath:ehcache.xml"
+
+# Application Configuration
+super_admin:
+  email: ${SUPER-ADMIN_EMAIL}
+
+
+
