@@ -71,5 +71,7 @@ public class UserMapper {
 		studentResponse.setTenthPercentage(student.getTenthPercentage());
 		return studentResponse;
 	}
+
+
 	
 }
