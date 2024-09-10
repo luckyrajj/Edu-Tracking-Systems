@@ -1,14 +1,9 @@
 package com.jsp.rest.ets.user;
 
+import com.jsp.rest.ets.util.SimpleResponseStructure;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jsp.rest.ets.exception.StudentNotFoundByIdException;
 import com.jsp.rest.ets.security.RegistrationRequest;
@@ -31,7 +26,7 @@ public class UserController {
 	private UserService userService;
 	private AppResponseBuilder responseBuilder;
 	
-	@Operation(description = "This API endpoint is used to register the admin and store their information in the database. In order to register the "
+	@Operation(description = "This API endpoint is used to trigger the request to register the admin and send the otp to their mail to verify. In order to register the "
 			+ " admin , the object of RegistraionRequest is attached along with it  ",responses = {
 					@ApiResponse(responseCode = "200",description = "Admin Object Created"),
 					@ApiResponse(responseCode = "500",description = "Internal Server Error",content = {
@@ -40,13 +35,13 @@ public class UserController {
 			})
 	
 	@PostMapping("/admins/register")
-	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid  RegistrationRequest registrationRequest) {
-		UserResponse adminResponse=userService.registerUser(registrationRequest,UserRole.ADMIN);
-		return responseBuilder.success(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register", adminResponse);
+	public ResponseEntity<SimpleResponseStructure> saveAdmin(@RequestBody @Valid  RegistrationRequest registrationRequest) {
+		 userService.registerUser(registrationRequest,UserRole.ADMIN);
+		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
 	}
 	
 	
-	@Operation(description = "This API endpoint is used to register the HR and store their information in the database. In order to register the "
+	@Operation(description = "This API endpoint is used to trigger the request to register the HR and send the otp to their mail to verify. In order to register the "
 			+ "hr, the object of RegistratonRequest is attached along with it ",responses = {
 					@ApiResponse(responseCode = "200",description = "HR object Created"),
 					@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
@@ -54,13 +49,13 @@ public class UserController {
 					})
 			})
 	@PostMapping("/hrs/register")
-	public ResponseEntity<ResponseStructure<UserResponse>>saveHr(@RequestBody @Valid RegistrationRequest registrationRequest){
-		UserResponse hrResponse=userService.registerUser(registrationRequest,UserRole.HR);
-		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", hrResponse);
+	public ResponseEntity<SimpleResponseStructure> saveHR(@RequestBody @Valid  RegistrationRequest registrationRequest) {
+		userService.registerUser(registrationRequest,UserRole.HR);
+		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
 	}
 	
 	
-	@Operation(description = "This API endpoint is used to register the Trainer and store their information in the database. In order to register the "
+	@Operation(description = "This API endpoint is used to trigger the request to register the Trainer and send the otp to their mail to verify. In order to register the "
 			+ "Trainer, the object of RegistratonRequest is attached along with it ",responses = {
 					@ApiResponse(responseCode = "200",description = "Trainer object Created"),
 					@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
@@ -68,24 +63,37 @@ public class UserController {
 					})
 			})
 	@PostMapping("/trainers/register")
-	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody RegistrationRequest registrationRequest){
-		UserResponse response=userService.registerUser(registrationRequest,UserRole.TRAINER);
-		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
+	public ResponseEntity<SimpleResponseStructure> saveTrainer(@RequestBody @Valid  RegistrationRequest registrationRequest) {
+		userService.registerUser(registrationRequest,UserRole.TRAINER);
+		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
 	}
-	
-	
-	@Operation(description = "This API endpoint is used to register the Student and store their information in the database. In order to register the "
+	@Operation(description = "This API endpoint is used to trigger the request to register the Student and send the otp to their mail to verify. In order to register the "
 			+ "Student, the object of RegistrationRequest is attached along with it ",responses = {
-					@ApiResponse(responseCode = "200",description = "Student object Created"),
-					@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
-							@Content(schema = @Schema(anyOf = RuntimeException.class))
-					})
+			@ApiResponse(responseCode = "200",description = "Student object Created"),
+			@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
+					@Content(schema = @Schema(anyOf = RuntimeException.class))
 			})
+	})
 	@PostMapping("/students/register")
-	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody RegistrationRequest registrationRequest){
-		UserResponse response=userService.registerUser(registrationRequest, UserRole.STUDENT);
-		return responseBuilder.success(HttpStatus.ACCEPTED, "Accepted the request,please verify your email to register", response);
+	public ResponseEntity<SimpleResponseStructure> saveStudent(@RequestBody @Valid  RegistrationRequest registrationRequest) {
+		userService.registerUser(registrationRequest,UserRole.STUDENT);
+		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
 	}
+
+	@Operation(description = "This API endpoint is used to verify the otp which is sent to the mail of the User those who want to register for any type of role " +
+			" once the otp will get verify after that they are able to register and their details will be saved in the database. " +
+			" In order to verify the Object of OtpDtoRequest has to be attached with the url",responses = {
+			@ApiResponse(responseCode = "200",description = "User registered successfully"),
+			@ApiResponse(responseCode = "500",description = "Internal Server Error",content = {
+					@Content(schema = @Schema(anyOf = RuntimeException.class))
+			})
+	})
+	@PostMapping("/verify/users/register")
+	public ResponseEntity<ResponseStructure<UserResponse>> verifyOtpToRegisterUser(@RequestBody OtpDtoRequest otpDtoRequest){
+		UserResponse userResponse=userService.verifyOtpToRegisterUser(otpDtoRequest);
+		return responseBuilder.success(HttpStatus.ACCEPTED,"Otp verified, registered successfully",userResponse);
+	}
+
 	
 	@Operation(description = "This API endpoint is meant for updating the Student details and store it in the specific database. In order to "
 			+ "update the Student, the unique identifier as path variable and the object of StudentRequest is attached along "
@@ -132,5 +140,5 @@ public class UserController {
 	}
 	
 
-	
+
 }

@@ -8,17 +8,16 @@ import java.util.List;
 import java.util.Random;
 
 import com.jsp.rest.ets.config.RandomGenerator;
+import com.jsp.rest.ets.exception.*;
 import com.jsp.rest.ets.util.CacheHelper;
 import com.jsp.rest.ets.util.MailMessageSender;
 import com.jsp.rest.ets.util.MessageModel;
+import com.jsp.rest.ets.util.SimpleResponseStructure;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
-import com.jsp.rest.ets.exception.RatingNotFoundByIdException;
-import com.jsp.rest.ets.exception.StudentNotFoundByIdException;
-import com.jsp.rest.ets.exception.TrainerNotFoundByIdException;
 import com.jsp.rest.ets.rating.RatingMapper;
 import com.jsp.rest.ets.rating.RatingRepository;
 import com.jsp.rest.ets.rating.RatingRequest;
@@ -40,7 +39,8 @@ public class UserService {
 	private Random randomGenerator;
 	private CacheHelper cacheHelper;
 
-	public UserResponse registerUser(RegistrationRequest registrationRequest,UserRole role) {
+
+	public void registerUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = null;
 		switch (role) {
 		case ADMIN -> user = new Admin();
@@ -55,16 +55,18 @@ public class UserService {
 			user.setRole(role);
 			int otp=randomGenerator.nextInt(100000,999999);
 			cacheHelper.userCache(user);
-			cacheHelper.otpCache(otp);
+			cacheHelper.otpCache(otp,user.getEmail());
             try {
                 sendVerificationOtpToUser(user.getEmail(),otp);
             } catch (MessagingException e) {
               log.info("Messaging Exception Occurred");
             }
 
-        }
 
-		return userMapper.mapToUserResponse(user);
+
+
+
+        }
 	}
 	
 	public UserResponse updateTrainer(TrainerRequest trainerRequest,String userId) {
@@ -137,5 +139,20 @@ public class UserService {
 		javaMailSender.sendMail(messageModel);
 
 	}
+
+	public UserResponse verifyOtpToRegisterUser(OtpDtoRequest otpRequest) {
+		Integer otp=cacheHelper.getOtpToVerify(otpRequest.getEmail());
+		if(!otp.equals(otpRequest.getOtp())){
+		throw new InvalidOtpException("otp is incorrect or otp is expire, please try again");
+		}
+		User user=cacheHelper.getRegisteringUser(otpRequest.getEmail());
+		if(!user.getEmail().equals(otpRequest.getEmail()))
+		throw new RegistrationSessionExpired("Registartion Session Expired, Please try again");
+
+		user = userRepository.save(user);
+		return userMapper.mapToUserResponse(user);
+	}
+
+
 
 }

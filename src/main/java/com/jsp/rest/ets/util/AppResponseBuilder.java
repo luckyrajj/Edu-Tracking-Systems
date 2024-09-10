@@ -20,4 +20,8 @@ public class AppResponseBuilder {
 	public   ResponseEntity<ErrorStructure<String>> error(HttpStatus status,String message,String rootCause){
 		return ResponseEntity.status(status).body(ErrorStructure.error(status.value(), message, rootCause));
 	}
+
+	public ResponseEntity<SimpleResponseStructure> verifyMail(HttpStatus status,String message){
+		return ResponseEntity.status(status).body(SimpleResponseStructure.create(status.value(),message));
+	}
 }
