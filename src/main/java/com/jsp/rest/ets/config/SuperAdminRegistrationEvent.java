@@ -28,7 +28,7 @@ public class SuperAdminRegistrationEvent {
 
 	private UserRepository userRepository;
 
-	@Value("${super_admin.email}")
+	@Value("${SUPER-ADMIN_EMAIL}")
 	private String superAdminEmail;
 
 	//These method will never have parameter if they have it is of bean type

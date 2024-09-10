@@ -3,10 +3,10 @@ package com.jsp.rest.ets.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+
 @AllArgsConstructor
 @Getter
-public class StudentNotFoundByIdException extends RuntimeException {
+public class InvalidOtpException extends RuntimeException {
 
-	private  final String message;
-	
+    private final String message;
 }
