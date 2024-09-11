@@ -27,8 +27,8 @@ public class UserController {
 	private AppResponseBuilder responseBuilder;
 	
 	@Operation(description = "This API endpoint is used to trigger the request to register the admin and send the otp to their mail to verify. In order to register the "
-			+ " admin , the object of RegistraionRequest is attached along with it  ",responses = {
-					@ApiResponse(responseCode = "200",description = "Admin Object Created"),
+			+ " admin , the object of RegistrationRequest is attached along with it  ",responses = {
+					@ApiResponse(responseCode = "202",description = "Admin Object Created"),
 					@ApiResponse(responseCode = "500",description = "Internal Server Error",content = {
 							@Content(schema = @Schema(anyOf = RuntimeException.class))
 					})
@@ -42,8 +42,8 @@ public class UserController {
 	
 	
 	@Operation(description = "This API endpoint is used to trigger the request to register the HR and send the otp to their mail to verify. In order to register the "
-			+ "hr, the object of RegistratonRequest is attached along with it ",responses = {
-					@ApiResponse(responseCode = "200",description = "HR object Created"),
+			+ "hr, the object of RegistrationRequest is attached along with it ",responses = {
+					@ApiResponse(responseCode = "202",description = "HR object Created"),
 					@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
 							@Content(schema = @Schema(anyOf = RuntimeException.class))
 					})
@@ -56,8 +56,8 @@ public class UserController {
 	
 	
 	@Operation(description = "This API endpoint is used to trigger the request to register the Trainer and send the otp to their mail to verify. In order to register the "
-			+ "Trainer, the object of RegistratonRequest is attached along with it ",responses = {
-					@ApiResponse(responseCode = "200",description = "Trainer object Created"),
+			+ "Trainer, the object of RegistrationRequest is attached along with it ",responses = {
+					@ApiResponse(responseCode = "202",description = "Trainer object Created"),
 					@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
 							@Content(schema = @Schema(anyOf = RuntimeException.class))
 					})
@@ -69,7 +69,7 @@ public class UserController {
 	}
 	@Operation(description = "This API endpoint is used to trigger the request to register the Student and send the otp to their mail to verify. In order to register the "
 			+ "Student, the object of RegistrationRequest is attached along with it ",responses = {
-			@ApiResponse(responseCode = "200",description = "Student object Created"),
+			@ApiResponse(responseCode = "202",description = "Student object Created"),
 			@ApiResponse(responseCode ="500",description = "Internal Server Error" ,content = {
 					@Content(schema = @Schema(anyOf = RuntimeException.class))
 			})
@@ -91,7 +91,7 @@ public class UserController {
 	@PostMapping("/verify/users/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> verifyOtpToRegisterUser(@RequestBody OtpDtoRequest otpDtoRequest){
 		UserResponse userResponse=userService.verifyOtpToRegisterUser(otpDtoRequest);
-		return responseBuilder.success(HttpStatus.ACCEPTED,"Otp verified, registered successfully",userResponse);
+		return responseBuilder.success(HttpStatus.CREATED,"Otp verified, registered successfully",userResponse);
 	}
 
 	
