@@ -3,6 +3,7 @@ package com.jsp.rest.ets.exceptionhandler;
 import com.jsp.rest.ets.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -44,5 +45,10 @@ public class ExceptionsHandler {
 	@ExceptionHandler(value = InvalidOtpException.class)
 	public ResponseEntity<ErrorStructure<String>> handleInvalidOtpExcpetion(InvalidOtpException ex){
 		return responseBuilder.error(HttpStatus.GATEWAY_TIMEOUT,ex.getMessage(),"Otp may be Expired");
+	}
+
+	@ExceptionHandler(value = UsernameNotFoundException.class)
+	public ResponseEntity<ErrorStructure<String>> handleUsernameNotFoundException(UsernameNotFoundException ex){
+		return responseBuilder.error(HttpStatus.NOT_FOUND,ex.getMessage(),"failed to find the user");
 	}
 }
