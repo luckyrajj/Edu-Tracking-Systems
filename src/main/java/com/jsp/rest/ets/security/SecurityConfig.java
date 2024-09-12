@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,9 +16,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-       return httpSecurity.csrf(csrf->csrf.disable())
+       return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(authorize->authorize
-                            .requestMatchers("/register/**","/login")
+                            .requestMatchers("/register/**","/login","verify/users/register")
                             .permitAll()
                             .anyRequest()
                             .authenticated())
@@ -26,6 +27,8 @@ public class SecurityConfig {
                 .build();
 
     }
+
+
 
 
 }
