@@ -39,6 +39,7 @@ public class UserService {
 	private MailMessageSender javaMailSender;
 	private Random randomGenerator;
 	private CacheHelper cacheHelper;
+	//private PasswordEncoder passwordEncoder;
 
 
 	public void registerUser(RegistrationRequest registrationRequest, UserRole role) {
