@@ -16,6 +16,7 @@ import com.jsp.rest.ets.util.SimpleResponseStructure;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.rest.ets.rating.RatingMapper;
@@ -148,6 +149,7 @@ public class UserService {
 		User user=cacheHelper.getRegisteringUser(otpRequest.getEmail());
 		if(!user.getEmail().equals(otpRequest.getEmail()))
 		throw new RegistrationSessionExpired("Registartion Session Expired, Please try again");
+
 
 		user = userRepository.save(user);
 		return userMapper.mapToUserResponse(user);

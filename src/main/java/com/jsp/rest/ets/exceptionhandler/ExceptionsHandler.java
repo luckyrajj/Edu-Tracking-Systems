@@ -43,7 +43,7 @@ public class ExceptionsHandler {
 	}
 
 	@ExceptionHandler(value = InvalidOtpException.class)
-	public ResponseEntity<ErrorStructure<String>> handleInvalidOtpExcpetion(InvalidOtpException ex){
+	public ResponseEntity<ErrorStructure<String>> handleInvalidOtpException(InvalidOtpException ex){
 		return responseBuilder.error(HttpStatus.GATEWAY_TIMEOUT,ex.getMessage(),"Otp may be Expired");
 	}
 
