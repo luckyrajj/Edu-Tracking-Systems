@@ -34,7 +34,7 @@ public class UserController {
 					})
 			})
 	
-	@PostMapping("/admins/register")
+	@PostMapping("register/admins")
 	public ResponseEntity<SimpleResponseStructure> saveAdmin(@RequestBody @Valid  RegistrationRequest registrationRequest) {
 		 userService.registerUser(registrationRequest,UserRole.ADMIN);
 		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
@@ -48,7 +48,7 @@ public class UserController {
 							@Content(schema = @Schema(anyOf = RuntimeException.class))
 					})
 			})
-	@PostMapping("/hrs/register")
+	@PostMapping("register/hrs")
 	public ResponseEntity<SimpleResponseStructure> saveHR(@RequestBody @Valid  RegistrationRequest registrationRequest) {
 		userService.registerUser(registrationRequest,UserRole.HR);
 		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
@@ -62,7 +62,7 @@ public class UserController {
 							@Content(schema = @Schema(anyOf = RuntimeException.class))
 					})
 			})
-	@PostMapping("/trainers/register")
+	@PostMapping("/register/trainers")
 	public ResponseEntity<SimpleResponseStructure> saveTrainer(@RequestBody @Valid  RegistrationRequest registrationRequest) {
 		userService.registerUser(registrationRequest,UserRole.TRAINER);
 		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
@@ -74,7 +74,7 @@ public class UserController {
 					@Content(schema = @Schema(anyOf = RuntimeException.class))
 			})
 	})
-	@PostMapping("/students/register")
+	@PostMapping("register/students")
 	public ResponseEntity<SimpleResponseStructure> saveStudent(@RequestBody @Valid  RegistrationRequest registrationRequest) {
 		userService.registerUser(registrationRequest,UserRole.STUDENT);
 		return responseBuilder.verifyMail(HttpStatus.ACCEPTED,"Accepted the request,please verify your email to register");
