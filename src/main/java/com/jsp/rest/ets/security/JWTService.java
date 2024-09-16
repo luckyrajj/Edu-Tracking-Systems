@@ -10,4 +10,7 @@ public class JWTService {
     @Value("${my_app.jwt.secret}")
     private String secret;
 
+    @Value("${my_app.jwt.access_expiry}")
+    private int access_expiry;
+
 }
