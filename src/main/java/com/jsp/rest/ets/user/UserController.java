@@ -88,7 +88,7 @@ public class UserController {
 					@Content(schema = @Schema(anyOf = RuntimeException.class))
 			})
 	})
-	@PostMapping("/verify/users/register")
+	@PostMapping("/verify-email")
 	public ResponseEntity<ResponseStructure<UserResponse>> verifyOtpToRegisterUser(@RequestBody OtpDtoRequest otpDtoRequest){
 		UserResponse userResponse=userService.verifyOtpToRegisterUser(otpDtoRequest);
 		return responseBuilder.success(HttpStatus.CREATED,"Otp verified, registered successfully",userResponse);
@@ -139,8 +139,10 @@ public class UserController {
 		return responseBuilder.success(HttpStatus.OK, "Trainer updated", response);
 	}
 
-	@PostMapping("/login/users")
-	public ResponseEntity<ResponseStructure<UserResponse>> loginUser(@RequestBody LoginRequest loginRequest){
+	@PostMapping("/login")
+	public String loginUser(@RequestBody LoginRequest loginRequest){
+		return userService.loginUser(loginRequest);
+
 
 	}
 

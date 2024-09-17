@@ -1,5 +1,7 @@
 package com.jsp.rest.ets.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -13,6 +15,7 @@ import java.util.Map;
 
 @Service
 public class JWTService {
+
 
 
     @Value("${my_app.jwt.secret}")
@@ -33,6 +36,13 @@ public class JWTService {
 
      private Key getSignInKey(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+     }
+
+     public Claims parseJwt(String token){
+         JwtParser jwtParser =Jwts.parserBuilder()
+                 .setSigningKey(getSignInKey())
+                 .build();
+       return  jwtParser.parseClaimsJws(token).getBody();
      }
 
 }
