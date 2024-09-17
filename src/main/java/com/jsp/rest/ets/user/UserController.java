@@ -138,7 +138,10 @@ public class UserController {
 		UserResponse response=userService.updateTrainer(trainerRequest,userId);
 		return responseBuilder.success(HttpStatus.OK, "Trainer updated", response);
 	}
-	
 
+	@PostMapping("/login/users")
+	public ResponseEntity<ResponseStructure<UserResponse>> loginUser(@RequestBody LoginRequest loginRequest){
+
+	}
 
 }
