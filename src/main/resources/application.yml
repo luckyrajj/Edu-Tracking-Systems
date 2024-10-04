@@ -37,5 +37,10 @@ spring:
 super_admin:
   email: ${SUPER-ADMIN_EMAIL}
 
+# JWT Configuration
+my_app:
+  jwt:
+    secret: ${JWT_SECRET}
+    access_expiry: 5
 
 

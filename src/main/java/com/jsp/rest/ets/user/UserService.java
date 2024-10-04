@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.jsp.rest.ets.config.RandomGenerator;
 import com.jsp.rest.ets.exception.*;
+import com.jsp.rest.ets.security.JWTService;
 import com.jsp.rest.ets.util.CacheHelper;
 import com.jsp.rest.ets.util.MailMessageSender;
 import com.jsp.rest.ets.util.MessageModel;
@@ -16,6 +17,12 @@ import com.jsp.rest.ets.util.SimpleResponseStructure;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.rest.ets.rating.RatingMapper;
@@ -38,6 +45,8 @@ public class UserService {
 	private MailMessageSender javaMailSender;
 	private Random randomGenerator;
 	private CacheHelper cacheHelper;
+	private AuthenticationManager authenticationManager;
+	private JWTService jwtService;
 
 
 	public void registerUser(RegistrationRequest registrationRequest, UserRole role) {
@@ -149,10 +158,28 @@ public class UserService {
 		if(!user.getEmail().equals(otpRequest.getEmail()))
 		throw new RegistrationSessionExpired("Registartion Session Expired, Please try again");
 
+
 		user = userRepository.save(user);
 		return userMapper.mapToUserResponse(user);
 	}
 
 
+    public String loginUser(LoginRequest loginRequest) {
 
+		 UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
+		 Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+		 if(authentication.isAuthenticated()){
+
+			return userRepository.findByEmail(loginRequest.getEmail()).map(user ->
+					 jwtService.createJwtToken(user.getUserId(), user.getEmail(),user.getRole().name()))
+					.orElseThrow(()->new UsernameNotFoundException("Invalid credentials"));
+
+
+
+		 }
+
+		 return null;
+
+    }
 }
